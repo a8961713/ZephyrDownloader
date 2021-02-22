@@ -10,6 +10,7 @@ tar -cf - zephyrproject/ -P | pv -s $(du -sb zephyrproject/ | awk '{print $1}') 
 mkdir pip3_packages
 cd pip3_packages
 
+pip3 download -d . -r pip3
 pip3 download -d . -r ../zephyrproject/zephyr/scripts/requirements.txt
 pip3 download -d . -r ../zephyrproject/bootloader/mcuboot/scripts/requirements.txt 
 

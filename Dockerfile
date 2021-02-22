@@ -8,7 +8,9 @@ python3-packaging \
 git \
 pv
 
-RUN pip3 install west
+RUN pip3 install --upgrade pip
+
+RUN pip install west
 
 RUN mkdir /scripts
 
