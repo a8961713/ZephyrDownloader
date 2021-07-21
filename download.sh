@@ -11,6 +11,7 @@ mkdir pip3_packages
 cd pip3_packages
 
 pip3 download -d . pip
+python3 -m pip install --upgrade pip
 pip3 download -d . -r ../zephyrproject/zephyr/scripts/requirements.txt
 pip3 download -d . -r ../zephyrproject/bootloader/mcuboot/scripts/requirements.txt 
 
