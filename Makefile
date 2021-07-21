@@ -10,7 +10,7 @@ download:
 	$(DOCKER) run -t -v $(shell pwd):/artifacts $(NAME)
 
 build:
-	$(DOCKER) build --tag $(NAME) .
+	$(DOCKER) build --no-cache --tag $(NAME) .
 
 clean:
 	$(RM) *.tar.bz2
