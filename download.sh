@@ -1,21 +1,16 @@
 #!/bin/bash
 
-west init zephyrproject
-cd zephyrproject
-west update 
-find . -name \.git|xargs rm -rf
-cd ..
-tar -cf - zephyrproject/ -P | pv -s $(du -sb zephyrproject/ | awk '{print $1}') | bzip2 -c > /artifacts/zephyrproject.tar.bz2
+dist=$1
+PIP3_PACKAGES_DIR=pip3_packages_${dist}
 
-mkdir pip3_packages
-cd pip3_packages
+mkdir -p ${PIP3_PACKAGES_DIR}
+cd ${PIP3_PACKAGES_DIR}
 
 pip3 download -d . pip
 python3 -m pip install --upgrade pip
-pip3 download -d . -r ../zephyrproject/zephyr/scripts/requirements.txt
-pip3 download -d . -r ../zephyrproject/bootloader/mcuboot/scripts/requirements.txt 
+pip3 download -d . -r /artifacts/pip/requirements1/requirements.txt
+pip3 download -d . -r /artifacts/pip/requirements2/requirements.txt
 
 cd ..
 
-tar -cf - pip3_packages/ -P | pv -s $(du -sb pip3_packages/ | awk '{print $1}') | bzip2 -c > /artifacts/pip3_packages.tar.bz2
-
+tar -cf - ${PIP3_PACKAGES_DIR}/ -P | pv -s $(du -sb ${PIP3_PACKAGES_DIR}/ | awk '{print $1}') | bzip2 -c > /artifacts/${PIP3_PACKAGES_DIR}.tar.bz2
