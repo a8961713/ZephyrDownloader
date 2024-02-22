@@ -3,6 +3,7 @@
 west init zephyrproject
 cd zephyrproject
 west update 
+west blobs fetch hal_espressif
 find . -name \.git|xargs rm -rf
 cd ..
 mkdir -p /artifacts/pip/requirements1
