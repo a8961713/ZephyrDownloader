@@ -10,6 +10,7 @@ pip3 download -d . pip
 python3 -m pip install --upgrade pip
 pip3 download -d . -r /artifacts/pip/requirements1/requirements.txt
 pip3 download -d . -r /artifacts/pip/requirements2/requirements.txt
+pip3 download -d . poetry-core
 
 cd ..
 
