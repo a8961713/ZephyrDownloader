@@ -1,21 +1,59 @@
 FROM ubuntu:22.04
 
-RUN apt-get update 
+# Set environment variables
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYENV_ROOT="/root/.pyenv"
+ENV PATH="$PYENV_ROOT/bin:$PATH"
 
+# Update package list
+RUN apt-get update
+
+# Install system dependencies for pyenv and Python compilation
 RUN apt-get -y install \
-python3-pip \
-python3-packaging \
-git \
-pv
+    curl \
+    git \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libbz2-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    wget \
+    llvm \
+    libncurses5-dev \
+    libncursesw5-dev \
+    xz-utils \
+    tk-dev \
+    libffi-dev \
+    liblzma-dev \
+    python3-openssl \
+    pv
 
-RUN pip3 install --upgrade pip
+# Install pyenv
+RUN curl https://pyenv.run | bash
 
-RUN pip install west
+# Initialize pyenv and install Python 3.12.11
+RUN eval "$(pyenv init -)" && \
+    pyenv install 3.12.11 && \
+    pyenv global 3.12.11 && \
+    pyenv rehash
 
+# Install Python packages using the pyenv-managed Python
+RUN eval "$(pyenv init -)" && \
+    python -m pip install --upgrade pip && \
+    python -m pip install packaging west
+
+# Create scripts directory
 RUN mkdir /scripts
 
+# Set up volume
 VOLUME /artifacts
 
-COPY  download.sh /scripts/download.sh
+# Copy the download script
+COPY download.sh /scripts/download.sh
 
+# Make sure the script uses pyenv Python by updating the shebang
+RUN sed -i '1s|.*|#!/bin/bash\nexport PATH="$PYENV_ROOT/bin:$PATH"\neval "$(pyenv init -)"|' /scripts/download.sh
+
+# Set the command
 CMD /scripts/download.sh 2204
