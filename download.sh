@@ -7,7 +7,7 @@ mkdir -p ${PIP3_PACKAGES_DIR}
 cd ${PIP3_PACKAGES_DIR}
 
 pip3 download -d . pip
-python3 -m pip install --upgrade pip
+# No need to upgrade pip as this was done when the docker was built
 pip3 download -d . -r /artifacts/pip/requirements1/requirements.txt
 pip3 download -d . -r /artifacts/pip/requirements2/requirements.txt
 pip3 download -d . poetry-core
