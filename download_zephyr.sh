@@ -12,6 +12,12 @@ sed -i '/^class /a\ \ \ \ def err(self, msg):\n\ \ \ \ \ \ \ \ print(msg)' /zeph
 west blobs fetch hal_espressif
 west blobs fetch hal_stm32
 
+# Remove the functions bacuase they create an "TypeError: Blobs.dbg() got an unexpected keyword argument 'level'" later when compiling
+sed -i '/^\ \ \ \ def dbg(self, msg):$/{N; /^\ \ \ \ def dbg(self, msg):\n\ \ \ \ \ \ \ \ print(msg)$/d;}' /zephyrproject/zephyr/scripts/west_commands/blobs.py
+sed -i '/^\ \ \ \ def dbg(self, msg):$/{N; /^\ \ \ \ def inf(self, msg):\n\ \ \ \ \ \ \ \ print(msg)$/d;}' /zephyrproject/zephyr/scripts/west_commands/blobs.py
+sed -i '/^\ \ \ \ def dbg(self, msg):$/{N; /^\ \ \ \ def wrn(self, msg):\n\ \ \ \ \ \ \ \ print(msg)$/d;}' /zephyrproject/zephyr/scripts/west_commands/blobs.py
+sed -i '/^\ \ \ \ def dbg(self, msg):$/{N; /^\ \ \ \ def err(self, msg):\n\ \ \ \ \ \ \ \ print(msg)$/d;}' /zephyrproject/zephyr/scripts/west_commands/blobs.py
+
 find . -name \.git|xargs rm -rf
 
 cd ..
