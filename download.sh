@@ -10,7 +10,10 @@ pip3 download -d . pip
 # No need to upgrade pip as this was done when the docker was built
 pip3 download -d . -r /artifacts/pip/requirements1/requirements.txt
 pip3 download -d . -r /artifacts/pip/requirements2/requirements.txt
+pip3 download -d . -r /artifacts/pip/requirements3/requirements.txt
 pip3 download -d . poetry-core
+# esptool is downloaded as a tar.gz; This creates a wheel file
+pip3 wheel esptool
 
 cd ..
 
